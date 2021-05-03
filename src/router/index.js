@@ -11,6 +11,11 @@ const routes = [
     component: Home
   },
   {
+    path: '/post/:id',
+    name: 'Post',
+    component: () => import('../views/Post.vue')
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting
@@ -24,6 +29,15 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  let documentTitle = `${process.env.VUE_APP_TITLE} - ${to.name}`
+  if (to.params.title) {
+    documentTitle += ` - ${to.params.title}`
+  }
+  document.title = documentTitle
+  next()
 })
 
 export default router
